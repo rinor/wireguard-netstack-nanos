@@ -1,0 +1,36 @@
+{
+    "BaseVolumeSz": "20m",
+    "Args": [
+        "-interface=wg2",
+        "-endpoint=10.0.2.2",
+        "-counter=10"
+    ],
+    "Env": {
+        "CLEANUP_ACTIONS_ORDERED": "HTTP_CLIENT_CLOSE_IDLE_CONNECTIONS WG_DEVICE_DOWN WG_DEVICE_CLOSE",
+        "LOG_LEVEL": "debug"
+    },
+    "RunConfig": {
+        "Memory": "256m",
+        "QMP": true,
+        "Mgmt": "40028"
+    },
+    "Klibs": [
+        "tun"
+    ],
+    "ManifestPassthrough": {
+        "transparent_hugepage": "never",
+        "mtu": "1420",
+        "exec_wait_for_ip4_secs": "30",
+        "reboot_on_exit": "1",
+        "tun": {
+            "wg": {
+                "ipaddress": "192.168.4.28",
+                "netmask": "255.255.255.0",
+                "up": "true"
+            }
+        }
+    },
+    "Boot": "/usr/local/src/nanovms/nanos/output/platform/pc/boot/boot.img",
+    "Kernel": "/usr/local/src/nanovms/nanos/output/platform/pc/bin/kernel.img",
+    "KlibDir": "/usr/local/src/nanovms/nanos/output/klib/bin"
+}

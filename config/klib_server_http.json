@@ -1,0 +1,36 @@
+{
+    "BaseVolumeSz": "20m",
+    "Args": [
+        "-interface=wg2"
+    ],
+    "Env": {
+        "LOG_LEVEL": "debug"
+    },
+    "RunConfig": {
+        "UDPPorts": [
+            "58120"
+        ],
+        "Memory": "256m",
+        "QMP": true,
+        "Mgmt": "40029"
+    },
+    "Klibs": [
+        "tun"
+    ],
+    "ManifestPassthrough": {
+        "transparent_hugepage": "never",
+        "mtu": "1420",
+        "exec_wait_for_ip4_secs": "30",
+        "reboot_on_exit": "1",
+        "tun": {
+            "wg": {
+                "ipaddress": "192.168.4.29",
+                "netmask": "255.255.255.0",
+                "up": "true"
+            }
+        }
+    },
+    "Boot": "/usr/local/src/nanovms/nanos/output/platform/pc/boot/boot.img",
+    "Kernel": "/usr/local/src/nanovms/nanos/output/platform/pc/bin/kernel.img",
+    "KlibDir": "/usr/local/src/nanovms/nanos/output/klib/bin"
+}
