@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"os"
 	"strings"
@@ -67,6 +68,17 @@ persistent_keepalive_interval=25
 
 	client := http.Client{
 		Timeout: 100 * time.Second,
+	}
+	// attach http client dialer to wg interface
+	if iface, err := net.InterfaceByName(*interfaceName); err != nil {
+		logger.Errorf("net.InterfaceByName(%s) - %v", *interfaceName, err)
+	} else {
+		dialer := net.Dialer{
+			LocalAddr: &net.TCPAddr{IP: net.IP(iface.HardwareAddr), Port: 0},
+		}
+		client.Transport = &http.Transport{
+			DialContext: dialer.DialContext,
+		}
 	}
 
 	logger.Verbosef("Started...")
